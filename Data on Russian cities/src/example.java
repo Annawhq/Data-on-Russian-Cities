@@ -64,12 +64,8 @@ public class example extends JFrame {
 					       if (rs == 0) {
 		                        JOptionPane.showMessageDialog(buttonf, "This is alredy exist");
 		                    } else {
-		                        JOptionPane.showMessageDialog(buttonf, "Новая город успешно добавлен в таблицу!");
+		                        JOptionPane.showMessageDialog(buttonf, "Новый город успешно добавлен в таблицу!");
 		                    }
-//					       while (rs.next()) {
-//					            int count = rs.getInt(1);
-//					            System.out.println("Total number of books in the table: " + count);
-//					       }
 					  } catch (Exception exception) {
 					       exception.printStackTrace();
 					  } finally {
@@ -79,10 +75,7 @@ public class example extends JFrame {
 					       try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 					   }
 			}
-		});
-				
-//				textf.getText();//возвращает текст, который ввели в форму
-				
+		});	
 				frame1.add(textf);
 				frame1.add(buttonf);
 				frame1.setVisible(true);
@@ -90,8 +83,94 @@ public class example extends JFrame {
 		});
 		
 		JMenuItem izmen1 = new JMenuItem("Изменить");
+		izmen1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				JFrame frame1 = new JFrame("Изменение данных в справочнике городов");
+				frame1.setSize(600,300);
+				frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame1.setLocationRelativeTo(null);
+				frame1.getContentPane().setBackground(new Color(255,255,153));
+				frame1.setLayout(new GridBagLayout());
+					
+				JTextField textf1 = new JTextField(20);
+				//МОЖЕТ БЫТЬ ИСПОЛЬЗОВАТЬ КОМБОБОКС????????????????????
+				JTextField textf2 = new JTextField(20);
+				JButton buttonf = new JButton("Изменить");
+				buttonf.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent event) {
+						String query = "update cities set city ='" + textf2.getText() + "' where city = '" + textf1.getText()+ "' limit 1";
+						   try {
+						       // opening database connection to MySQL server
+						       con = DriverManager.getConnection(url, user, password);
+						       // getting Statement object to execute query
+						       stmt = con.createStatement();
+						       // executing SELECT query
+						       int rs = stmt.executeUpdate(query);
+						       if (rs == 0) {
+			                        JOptionPane.showMessageDialog(buttonf, "Город, который вы хотите изменить, не был найден");
+			                    } else {
+			                        JOptionPane.showMessageDialog(buttonf, "Данный город успешно изменен!");
+			                    }
+						  } catch (Exception exception) {
+						       exception.printStackTrace();
+						  } finally {
+						       //close connection ,stmt and resultset here
+						       try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+						       try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+						       try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+						   }
+				}
+			});	
+					frame1.add(textf1);
+					frame1.add(textf2);
+					frame1.add(buttonf);
+					frame1.setVisible(true);
+				}
+			});
 		JMenuItem udal1 = new JMenuItem("Удалить");
+		udal1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				JFrame frame1 = new JFrame("Удаление данных из справочника городов");
+				frame1.setSize(600,300);
+				frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame1.setLocationRelativeTo(null);
+				frame1.getContentPane().setBackground(new Color(255,153,153));
+				frame1.setLayout(new GridBagLayout());
+					
+				JTextField textf = new JTextField(20);
+				JButton buttonf = new JButton("Удалить");
+				buttonf.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent event) {
+						String query = "delete from cities where city = '" + textf.getText() + "' limit 1";
+						   try {
+						       // opening database connection to MySQL server
+						       con = DriverManager.getConnection(url, user, password);
+						       // getting Statement object to execute query
+						       stmt = con.createStatement();
+						       // executing SELECT query
+						       int rs = stmt.executeUpdate(query);
+						       if (rs == 0) {
+			                        JOptionPane.showMessageDialog(buttonf, "Город, который вы хотите удалить, не был найден");
+			                    } else {
+			                        JOptionPane.showMessageDialog(buttonf, "Данный город успешно удален!");
+			                    }
+						  } catch (Exception exception) {
+						       exception.printStackTrace();
+						  } finally {
+						       //close connection ,stmt and resultset here
+						       try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+						       try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+						       try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+						   }
+				}
+			});	
+					frame1.add(textf);
+					frame1.add(buttonf);
+					frame1.setVisible(true);
+				}
+			});
 		JMenuItem poisk1 = new JMenuItem("Поиск");
+	
 		JMenu oblast = new JMenu("Справочник областей");
 		JMenuItem dobav2 = new JMenuItem("Добавить");
 		JMenuItem izmen2 = new JMenuItem("Изменить");
