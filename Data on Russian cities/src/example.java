@@ -3,6 +3,7 @@ import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintStream;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -93,7 +94,7 @@ public class example extends JFrame {
 				frame1.setLayout(new GridBagLayout());
 					
 				JTextField textf1 = new JTextField(20);
-				//МОЖЕТ БЫТЬ ИСПОЛЬЗОВАТЬ КОМБОБОКС????????????????????
+				//МОЖЕТ БЫТЬ ИСПОЛЬЗОВАТЬ КОМБОБОКС?
 				JTextField textf2 = new JTextField(20);
 				JButton buttonf = new JButton("Изменить");
 				buttonf.addActionListener(new ActionListener(){
@@ -170,7 +171,83 @@ public class example extends JFrame {
 				}
 			});
 		JMenuItem poisk1 = new JMenuItem("Поиск");
-	
+		poisk1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				JFrame frame1 = new JFrame("Поиск данных из справочника городов");
+				frame1.setSize(600,300);
+				frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame1.setLocationRelativeTo(null);
+				frame1.getContentPane().setBackground(new Color(153,204,255));
+				frame1.setLayout(new GridBagLayout());
+				
+				JTextField textf1 = new JTextField(20);
+				JLabel label = new JLabel();
+				JButton buttonf1 = new JButton("Найти по названию города");
+				buttonf1.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent event) {
+						String query = "select * from cities where city = '" + textf1.getText() + "'";
+						   try {
+						       // opening database connection to MySQL server
+						       con = DriverManager.getConnection(url, user, password);
+						       // getting Statement object to execute query
+						       stmt = con.createStatement();
+						       // executing SELECT query
+						       rs = stmt.executeQuery(query);
+			                   while (rs.next()) {
+			                    	int a = rs.getInt(1);
+			                    	String b = rs.getString(2);
+//			                    	System.out.printf("id: %d, city: %s", a, b);
+			                    	label.setText("  Id:" + a + " City:" + b);
+			                    }
+						  } catch (Exception exception) {
+						       exception.printStackTrace();
+						  } finally {
+						       //close connection ,stmt and resultset here
+						       try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+						       try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+						       try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+						   }
+				}
+			});	
+				JTextField textf2 = new JTextField(20);
+				JLabel label2 = new JLabel();
+				JButton buttonf2 = new JButton("Найти по айди");
+				buttonf2.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent event) {
+						String query = "select * from cities where id = '" + textf2.getText() + "'";
+						   try {
+						       // opening database connection to MySQL server
+						       con = DriverManager.getConnection(url, user, password);
+						       // getting Statement object to execute query
+						       stmt = con.createStatement();
+						       // executing SELECT query
+						       rs = stmt.executeQuery(query);
+			                   while (rs.next()) {
+			                    	int a = rs.getInt(1);
+			                    	String b = rs.getString(2);
+//			                    	System.out.printf("id: %d, city: %s", a, b);
+			                    	label2.setText("  Id:" + a + " City:" + b);
+			                    }
+						  } catch (Exception exception) {
+						       exception.printStackTrace();
+						  } finally {
+						       //close connection ,stmt and resultset here
+						       try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+						       try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+						       try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+						   }
+				}
+			});	
+					
+					frame1.add(textf1);
+					frame1.add(buttonf1);
+					frame1.add(label);
+					frame1.add(textf2);
+					frame1.add(buttonf2);
+					frame1.add(label2);
+					frame1.setVisible(true);
+				}
+			});
 		JMenu oblast = new JMenu("Справочник областей");
 		JMenuItem dobav2 = new JMenuItem("Добавить");
 		JMenuItem izmen2 = new JMenuItem("Изменить");
