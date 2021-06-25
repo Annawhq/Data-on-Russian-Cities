@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -469,9 +470,60 @@ public class example extends JFrame {
 
 		 JMenu Operat = new JMenu("Оперативные данные");
 		 JMenuItem vvestid = new JMenuItem("Ввести данные");
+		 vvestid.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent event) {
+				 JFrame frame1 = new JFrame("Добавление оперативных данных");
+				 frame1.setSize(600,300);
+				 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				 frame1.setLocationRelativeTo(null);
+				 frame1.getContentPane().setBackground(new Color(153,255,204));
+				 frame1.setLayout(new FlowLayout());
+					
+				 JTextField textf1 = new JTextField(20);
+				 JTextField textf2 = new JTextField(20);
+				 JTextField textf3 = new JTextField(20);
+				 JTextField textf4 = new JTextField(20);
+				 JTextField textf5 = new JTextField(20);
+				 JTextField textf6 = new JTextField(20);
+				 JButton buttonf = new JButton("Добавить");
+				 buttonf.addActionListener(new ActionListener(){
+				 public void actionPerformed(ActionEvent event) {
+						 String query = "insert into data_on_cities values (null, '" + textf1.getText() +  "','" + textf2.getText()+ "','" + textf3.getText() + "','" + textf4.getText() + "','" + textf5.getText() + "','" + textf6.getText() + "')";
+						    try {
+						        // opening database connection to MySQL server
+						        con = DriverManager.getConnection(url, user, password);
+						        // getting Statement object to execute query
+						        stmt = con.createStatement();
+						        // executing SELECT query
+						        int rs = stmt.executeUpdate(query);
+						        if (rs == 0) {
+			                         JOptionPane.showMessageDialog(buttonf, "This is alredy exist");
+			                     } else {
+			                         JOptionPane.showMessageDialog(buttonf, "Новые данные успешно добавлены в таблицу!");
+			                     }
+						   } catch (Exception exception) {
+						        exception.printStackTrace();
+						   } finally {
+						        //close connection ,stmt and resultset here
+						        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+						        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+						        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+						    }
+				 }
+			 });	
+					 frame1.add(textf1);
+					 frame1.add(textf2);
+					 frame1.add(textf3);
+					 frame1.add(textf4);
+					 frame1.add(textf5);
+					 frame1.add(textf6);
+					 frame1.add(buttonf);
+					 frame1.setVisible(true);
+				 }
+			 });
 		 JMenuItem izmend = new JMenuItem("Изменить данные");
 		 JMenuItem udald = new JMenuItem("Удалить данные");
-		 JMenuItem naiti = new JMenuItem("Найти");
+		 JMenuItem naiti = new JMenuItem("Найти данные");
 		 Operat.add(vvestid);
 		 Operat.add(izmend);
 		 Operat.add(udald);
@@ -528,6 +580,5 @@ public class example extends JFrame {
              try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
              try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
          }
-        
      }
 }
