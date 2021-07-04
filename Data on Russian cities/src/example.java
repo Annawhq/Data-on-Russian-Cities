@@ -13,7 +13,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
@@ -93,14 +92,36 @@ public class example extends JFrame {
 				 frame1.setLocationRelativeTo(null);
 				 frame1.getContentPane().setBackground(new Color(255,255,153));
 				 frame1.setLayout(new GridBagLayout());
-					
-				 JTextField textf1 = new JTextField(20);
-				 //ÃŒ∆≈“ ¡€“‹ »—œŒÀ‹«Œ¬¿“‹  ŒÃ¡Œ¡Œ —?
+				
+				 JComboBox combo = new JComboBox();
+				 String query = "select city from cities";
+		         try {
+		             // opening database connection to MySQL server
+		             con = DriverManager.getConnection(url, user, password);
+
+		             // getting Statement object to execute query
+		             stmt = con.createStatement();
+
+		             // executing SELECT query
+		             rs = stmt.executeQuery(query);
+
+		             while (rs.next()) {
+		            	 combo.addItem(rs.getString("city"));
+		             }
+
+		         } catch (Exception exception) {
+		             exception.printStackTrace();
+		         } finally {
+		             //close connection ,stmt and resultset here
+		             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+		             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+		             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+		         }
 				 JTextField textf2 = new JTextField(20);
 				 JButton buttonf = new JButton("»ÁÏÂÌËÚ¸");
 				 buttonf.addActionListener(new ActionListener(){
 				 public void actionPerformed(ActionEvent event) {
-						 String query = "update cities set city ='" + textf2.getText() + "' where city = '" + textf1.getText()+ "' limit 1";
+						 String query = "update cities set city ='" + textf2.getText() + "' where city = '" + combo.getSelectedItem() + "' limit 1";
 						    try {
 						        // opening database connection to MySQL server
 						        con = DriverManager.getConnection(url, user, password);
@@ -123,7 +144,7 @@ public class example extends JFrame {
 						    }
 				 }
 			 });	
-					 frame1.add(textf1);
+					 frame1.add(combo);
 					 frame1.add(textf2);
 					 frame1.add(buttonf);
 					 frame1.setVisible(true);
@@ -139,11 +160,34 @@ public class example extends JFrame {
 				 frame1.getContentPane().setBackground(new Color(255,153,153));
 				 frame1.setLayout(new GridBagLayout());
 					
-				 JTextField textf = new JTextField(20);
+				 JComboBox combo = new JComboBox();
+				 String query = "select city from cities";
+		         try {
+		             // opening database connection to MySQL server
+		             con = DriverManager.getConnection(url, user, password);
+
+		             // getting Statement object to execute query
+		             stmt = con.createStatement();
+
+		             // executing SELECT query
+		             rs = stmt.executeQuery(query);
+
+		             while (rs.next()) {
+		            	 combo.addItem(rs.getString("city"));
+		             }
+
+		         } catch (Exception exception) {
+		             exception.printStackTrace();
+		         } finally {
+		             //close connection ,stmt and resultset here
+		             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+		             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+		             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+		         }
 				 JButton buttonf = new JButton("”‰‡ÎËÚ¸");
 				 buttonf.addActionListener(new ActionListener(){
 				 public void actionPerformed(ActionEvent event) {
-						 String query = "delete from cities where city = '" + textf.getText() + "' limit 1";
+						 String query = "delete from cities where city = '" + combo.getSelectedItem() + "' limit 1";
 						    try {
 						        // opening database connection to MySQL server
 						        con = DriverManager.getConnection(url, user, password);
@@ -166,7 +210,7 @@ public class example extends JFrame {
 						    }
 				 }
 			  });	
-					 frame1.add(textf);
+					 frame1.add(combo);
 					 frame1.add(buttonf);
 					 frame1.setVisible(true);
 				 }
@@ -302,13 +346,35 @@ public class example extends JFrame {
 				 frame1.getContentPane().setBackground(new Color(255,255,153));
 				 frame1.setLayout(new GridBagLayout());
 					
-				 JTextField textf1 = new JTextField(20);
-				 //ÃŒ∆≈“ ¡€“‹ »—œŒÀ‹«Œ¬¿“‹  ŒÃ¡Œ¡Œ —?
+				 JComboBox combo = new JComboBox();
+				 String query = "select region from regions";
+		         try {
+		             // opening database connection to MySQL server
+		             con = DriverManager.getConnection(url, user, password);
+
+		             // getting Statement object to execute query
+		             stmt = con.createStatement();
+
+		             // executing SELECT query
+		             rs = stmt.executeQuery(query);
+
+		             while (rs.next()) {
+		            	 combo.addItem(rs.getString("region"));
+		             }
+
+		         } catch (Exception exception) {
+		             exception.printStackTrace();
+		         } finally {
+		             //close connection ,stmt and resultset here
+		             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+		             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+		             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+		         }
 				 JTextField textf2 = new JTextField(20);
 				 JButton buttonf = new JButton("»ÁÏÂÌËÚ¸");
 				 buttonf.addActionListener(new ActionListener(){
 				 public void actionPerformed(ActionEvent event) {
-						 String query = "update regions set region ='" + textf2.getText() + "' where region = '" + textf1.getText()+ "' limit 1";
+						 String query = "update regions set region ='" + textf2.getText() + "' where region = '" + combo.getSelectedItem() + "' limit 1";
 						    try {
 						        // opening database connection to MySQL server
 						        con = DriverManager.getConnection(url, user, password);
@@ -331,7 +397,7 @@ public class example extends JFrame {
 						    }
 				 }
 			 });	
-					 frame1.add(textf1);
+					 frame1.add(combo);
 					 frame1.add(textf2);
 					 frame1.add(buttonf);
 					 frame1.setVisible(true);
@@ -347,11 +413,34 @@ public class example extends JFrame {
 				 frame1.getContentPane().setBackground(new Color(255,153,153));
 				 frame1.setLayout(new GridBagLayout());
 					
-				 JTextField textf = new JTextField(20);
+				 JComboBox combo = new JComboBox();
+				 String query = "select region from regions";
+		         try {
+		             // opening database connection to MySQL server
+		             con = DriverManager.getConnection(url, user, password);
+
+		             // getting Statement object to execute query
+		             stmt = con.createStatement();
+
+		             // executing SELECT query
+		             rs = stmt.executeQuery(query);
+
+		             while (rs.next()) {
+		            	 combo.addItem(rs.getString("region"));
+		             }
+
+		         } catch (Exception exception) {
+		             exception.printStackTrace();
+		         } finally {
+		             //close connection ,stmt and resultset here
+		             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+		             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+		             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+		         }
 				 JButton buttonf = new JButton("”‰‡ÎËÚ¸");
 				 buttonf.addActionListener(new ActionListener(){
 				 public void actionPerformed(ActionEvent event) {
-						 String query = "delete from regions where region = '" + textf.getText() + "' limit 1";
+						 String query = "delete from regions where region = '" + combo.getSelectedItem() + "' limit 1";
 						    try {
 						        // opening database connection to MySQL server
 						        con = DriverManager.getConnection(url, user, password);
@@ -374,7 +463,7 @@ public class example extends JFrame {
 						    }
 				 }
 			 });	
-					 frame1.add(textf);
+					 frame1.add(combo);
 					 frame1.add(buttonf);
 					 frame1.setVisible(true);
 				 }
@@ -521,7 +610,14 @@ public class example extends JFrame {
 					 frame1.setVisible(true);
 				 }
 			 });
+		 
 		 JMenuItem izmend = new JMenuItem("»ÁÏÂÌËÚ¸ ‰‡ÌÌ˚Â");
+		 vvestid.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent event) {
+				 
+			 }
+		 });
+		 
 		 JMenuItem udald = new JMenuItem("”‰‡ÎËÚ¸ ‰‡ÌÌ˚Â");
 		 JMenuItem naiti = new JMenuItem("Õ‡ÈÚË ‰‡ÌÌ˚Â");
 		 Operat.add(vvestid);
@@ -556,29 +652,29 @@ public class example extends JFrame {
 	
 	 public static void main(String args[]) {
 		 new example();
-         String query = "select count(*) from cities";
-         try {
-             // opening database connection to MySQL server
-             con = DriverManager.getConnection(url, user, password);
-
-             // getting Statement object to execute query
-             stmt = con.createStatement();
-
-             // executing SELECT query
-             rs = stmt.executeQuery(query);
-
-             while (rs.next()) {
-                 int count = rs.getInt(1);
-                 System.out.println("Total number of books in the table : " + count);
-             }
-
-         } catch (Exception exception) {
-             exception.printStackTrace();
-         } finally {
-             //close connection ,stmt and resultset here
-             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
-             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
-             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
-         }
+//         String query = "select count(*) from cities";
+//         try {
+//             // opening database connection to MySQL server
+//             con = DriverManager.getConnection(url, user, password);
+//
+//             // getting Statement object to execute query
+//             stmt = con.createStatement();
+//
+//             // executing SELECT query
+//             rs = stmt.executeQuery(query);
+//
+//             while (rs.next()) {
+//                 int count = rs.getInt(1);
+//                 System.out.println("Total number of books in the table : " + count);
+//             }
+//
+//         } catch (Exception exception) {
+//             exception.printStackTrace();
+//         } finally {
+//             //close connection ,stmt and resultset here
+//             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+//             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+//             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+//        }
      }
 }
