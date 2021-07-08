@@ -612,9 +612,407 @@ public class example extends JFrame {
 			 });
 		 
 		 JMenuItem izmend = new JMenuItem("Изменить данные");
-		 vvestid.addActionListener(new ActionListener(){
+		 izmend.addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent event) {
+				 JFrame frame1 = new JFrame("Изменение оперативных данных");
+				 frame1.setSize(600,300);
+				 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				 frame1.setLocationRelativeTo(null);
+				 frame1.getContentPane().setBackground(new Color(153,255,204));
+				 frame1.setLayout(new FlowLayout());
 				 
+				 JButton button1 = new JButton("Изменить код региона");
+				 button1.addActionListener(new ActionListener(){
+					 public void actionPerformed(ActionEvent event) {
+						 JFrame frame1 = new JFrame("Изменение данных по коду региона");
+						 frame1.setSize(600,300);
+						 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						 frame1.setLocationRelativeTo(null);
+						 frame1.getContentPane().setBackground(new Color(153,255,204));
+						 frame1.setLayout(new FlowLayout());
+						 
+						 JComboBox combo = new JComboBox();
+						 String query = "select region_id from data_on_cities";
+				         try {
+				             // opening database connection to MySQL server
+				             con = DriverManager.getConnection(url, user, password);
+				             // getting Statement object to execute query
+				             stmt = con.createStatement();
+				             // executing SELECT query
+				             rs = stmt.executeQuery(query);
+				             while (rs.next()) {
+				            	 combo.addItem(rs.getString("region_id"));
+				             }
+				         } catch (Exception exception) {
+				             exception.printStackTrace();
+				         } finally {
+				             //close connection ,stmt and resultset here
+				             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				         }
+						 JTextField textf2 = new JTextField(20);
+						 JButton buttonf = new JButton("Изменить");
+						 buttonf.addActionListener(new ActionListener(){
+						 public void actionPerformed(ActionEvent event) {
+								 String query = "update data_on_cities set region_id ='" + textf2.getText() + "' where region_id = '" + combo.getSelectedItem() + "' limit 1";
+								    try {
+								        // opening database connection to MySQL server
+								        con = DriverManager.getConnection(url, user, password);
+								        // getting Statement object to execute query
+								        stmt = con.createStatement();
+								        // executing SELECT query
+								        int rs = stmt.executeUpdate(query);
+								        if (rs == 0) {
+					                         JOptionPane.showMessageDialog(buttonf, "Код региона, который вы хотите изменить, не был найден");
+					                     } else {
+					                         JOptionPane.showMessageDialog(buttonf, "Данный код региона был успешно изменен!");
+					                     }
+								   } catch (Exception exception) {
+								        exception.printStackTrace();
+								   } finally {
+								        //close connection ,stmt and resultset here
+								        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+								    }
+						 }
+					 });
+						 
+						 frame1.add(combo);
+						 frame1.add(textf2);
+						 frame1.add(buttonf);
+						 frame1.setVisible(true);
+					 }
+				 });
+				 
+				 JButton button2 = new JButton("Изменить код города");
+				 button2.addActionListener(new ActionListener(){
+					 public void actionPerformed(ActionEvent event) {
+						 JFrame frame1 = new JFrame("Изменение данных по коду города");
+						 frame1.setSize(600,300);
+						 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						 frame1.setLocationRelativeTo(null);
+						 frame1.getContentPane().setBackground(new Color(153,255,204));
+						 frame1.setLayout(new FlowLayout());
+						 
+						 JComboBox combo = new JComboBox();
+						 String query = "select city_id from data_on_cities";
+				         try {
+				             // opening database connection to MySQL server
+				             con = DriverManager.getConnection(url, user, password);
+				             // getting Statement object to execute query
+				             stmt = con.createStatement();
+				             // executing SELECT query
+				             rs = stmt.executeQuery(query);
+				             while (rs.next()) {
+				            	 combo.addItem(rs.getString("city_id"));
+				             }
+				         } catch (Exception exception) {
+				             exception.printStackTrace();
+				         } finally {
+				             //close connection ,stmt and resultset here
+				             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				         }
+						 JTextField textf2 = new JTextField(20);
+						 JButton buttonf = new JButton("Изменить");
+						 buttonf.addActionListener(new ActionListener(){
+						 public void actionPerformed(ActionEvent event) {
+								 String query = "update data_on_cities set city_id ='" + textf2.getText() + "' where city_id = '" + combo.getSelectedItem() + "' limit 1";
+								    try {
+								        // opening database connection to MySQL server
+								        con = DriverManager.getConnection(url, user, password);
+								        // getting Statement object to execute query
+								        stmt = con.createStatement();
+								        // executing SELECT query
+								        int rs = stmt.executeUpdate(query);
+								        if (rs == 0) {
+					                         JOptionPane.showMessageDialog(buttonf, "Код города, который вы хотите изменить, не был найден");
+					                     } else {
+					                         JOptionPane.showMessageDialog(buttonf, "Данный код города был успешно изменен!");
+					                     }
+								   } catch (Exception exception) {
+								        exception.printStackTrace();
+								   } finally {
+								        //close connection ,stmt and resultset here
+								        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+								    }
+						 }
+					 });
+						 frame1.add(combo);
+						 frame1.add(textf2);
+						 frame1.add(buttonf);
+						 frame1.setVisible(true);
+					 }
+				 });
+				 
+				 JButton button3 = new JButton("Изменить численность населения");
+				 button3.addActionListener(new ActionListener(){
+					 public void actionPerformed(ActionEvent event) {
+						 JFrame frame1 = new JFrame("Изменение данных по численности населения");
+						 frame1.setSize(600,300);
+						 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						 frame1.setLocationRelativeTo(null);
+						 frame1.getContentPane().setBackground(new Color(153,255,204));
+						 frame1.setLayout(new FlowLayout());
+						 
+						 JComboBox combo = new JComboBox();
+						 String query = "select population from data_on_cities";
+				         try {
+				             // opening database connection to MySQL server
+				             con = DriverManager.getConnection(url, user, password);
+				             // getting Statement object to execute query
+				             stmt = con.createStatement();
+				             // executing SELECT query
+				             rs = stmt.executeQuery(query);
+				             while (rs.next()) {
+				            	 combo.addItem(rs.getString("population"));
+				             }
+				         } catch (Exception exception) {
+				             exception.printStackTrace();
+				         } finally {
+				             //close connection ,stmt and resultset here
+				             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				         }
+						 JTextField textf2 = new JTextField(20);
+						 JButton buttonf = new JButton("Изменить");
+						 buttonf.addActionListener(new ActionListener(){
+						 public void actionPerformed(ActionEvent event) {
+								 String query = "update data_on_cities set population ='" + textf2.getText() + "' where population = '" + combo.getSelectedItem() + "' limit 1";
+								    try {
+								        // opening database connection to MySQL server
+								        con = DriverManager.getConnection(url, user, password);
+								        // getting Statement object to execute query
+								        stmt = con.createStatement();
+								        // executing SELECT query
+								        int rs = stmt.executeUpdate(query);
+								        if (rs == 0) {
+					                         JOptionPane.showMessageDialog(buttonf, "Ошибка");
+					                     } else {
+					                         JOptionPane.showMessageDialog(buttonf, "Численность населения была успешно изменена!");
+					                     }
+								   } catch (Exception exception) {
+								        exception.printStackTrace();
+								   } finally {
+								        //close connection ,stmt and resultset here
+								        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+								    }
+						 }
+					 });
+						 frame1.add(combo);
+						 frame1.add(textf2);
+						 frame1.add(buttonf);
+						 frame1.setVisible(true);
+					 }
+				 });
+				 
+				 JButton button4 = new JButton("Изменить площадь города");
+				 button4.addActionListener(new ActionListener(){
+					 public void actionPerformed(ActionEvent event) {
+						 JFrame frame1 = new JFrame("Изменение данных по площади города");
+						 frame1.setSize(600,300);
+						 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						 frame1.setLocationRelativeTo(null);
+						 frame1.getContentPane().setBackground(new Color(153,255,204));
+						 frame1.setLayout(new FlowLayout());
+						 
+						 JComboBox combo = new JComboBox();
+						 String query = "select area from data_on_cities";
+				         try {
+				             // opening database connection to MySQL server
+				             con = DriverManager.getConnection(url, user, password);
+				             // getting Statement object to execute query
+				             stmt = con.createStatement();
+				             // executing SELECT query
+				             rs = stmt.executeQuery(query);
+				             while (rs.next()) {
+				            	 combo.addItem(rs.getString("area"));
+				             }
+				         } catch (Exception exception) {
+				             exception.printStackTrace();
+				         } finally {
+				             //close connection ,stmt and resultset here
+				             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				         }
+						 JTextField textf2 = new JTextField(20);
+						 JButton buttonf = new JButton("Изменить");
+						 buttonf.addActionListener(new ActionListener(){
+						 public void actionPerformed(ActionEvent event) {
+								 String query = "update data_on_cities set area ='" + textf2.getText() + "' where area = '" + combo.getSelectedItem() + "' limit 1";
+								    try {
+								        // opening database connection to MySQL server
+								        con = DriverManager.getConnection(url, user, password);
+								        // getting Statement object to execute query
+								        stmt = con.createStatement();
+								        // executing SELECT query
+								        int rs = stmt.executeUpdate(query);
+								        if (rs == 0) {
+					                         JOptionPane.showMessageDialog(buttonf, "Ошибка");
+					                     } else {
+					                         JOptionPane.showMessageDialog(buttonf, "Площадь города была успешно изменена!");
+					                     }
+								   } catch (Exception exception) {
+								        exception.printStackTrace();
+								   } finally {
+								        //close connection ,stmt and resultset here
+								        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+								    }
+						 }
+					 });
+						 frame1.add(combo);
+						 frame1.add(textf2);
+						 frame1.add(buttonf);
+						 frame1.setVisible(true);
+					 }
+				 });
+				 
+				 JButton button5 = new JButton("Изменить количество университетов");
+				 button5.addActionListener(new ActionListener(){
+					 public void actionPerformed(ActionEvent event) {
+						 JFrame frame1 = new JFrame("Изменение данных по количеству университетов");
+						 frame1.setSize(600,300);
+						 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						 frame1.setLocationRelativeTo(null);
+						 frame1.getContentPane().setBackground(new Color(153,255,204));
+						 frame1.setLayout(new FlowLayout());
+						 
+						 JComboBox combo = new JComboBox();
+						 String query = "select universities from data_on_cities";
+				         try {
+				             // opening database connection to MySQL server
+				             con = DriverManager.getConnection(url, user, password);
+				             // getting Statement object to execute query
+				             stmt = con.createStatement();
+				             // executing SELECT query
+				             rs = stmt.executeQuery(query);
+				             while (rs.next()) {
+				            	 combo.addItem(rs.getString("universities"));
+				             }
+				         } catch (Exception exception) {
+				             exception.printStackTrace();
+				         } finally {
+				             //close connection ,stmt and resultset here
+				             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				         }
+						 JTextField textf2 = new JTextField(20);
+						 JButton buttonf = new JButton("Изменить");
+						 buttonf.addActionListener(new ActionListener(){
+						 public void actionPerformed(ActionEvent event) {
+								 String query = "update data_on_cities set universities ='" + textf2.getText() + "' where universities = '" + combo.getSelectedItem() + "' limit 1";
+								    try {
+								        // opening database connection to MySQL server
+								        con = DriverManager.getConnection(url, user, password);
+								        // getting Statement object to execute query
+								        stmt = con.createStatement();
+								        // executing SELECT query
+								        int rs = stmt.executeUpdate(query);
+								        if (rs == 0) {
+					                         JOptionPane.showMessageDialog(buttonf, "Ошибка");
+					                     } else {
+					                         JOptionPane.showMessageDialog(buttonf, "Количество университетов было успешно изменено!");
+					                     }
+								   } catch (Exception exception) {
+								        exception.printStackTrace();
+								   } finally {
+								        //close connection ,stmt and resultset here
+								        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+								    }
+						 }
+					 });
+						 frame1.add(combo);
+						 frame1.add(textf2);
+						 frame1.add(buttonf);
+						 frame1.setVisible(true);
+					 }
+				 });
+				 
+				 JButton button6 = new JButton("Изменить название достопримечательности");
+				 button6.addActionListener(new ActionListener(){
+					 public void actionPerformed(ActionEvent event) {
+						 JFrame frame1 = new JFrame("Изменение данных по названию достопримечательности");
+						 frame1.setSize(600,300);
+						 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						 frame1.setLocationRelativeTo(null);
+						 frame1.getContentPane().setBackground(new Color(153,255,204));
+						 frame1.setLayout(new FlowLayout());
+						 
+						 JComboBox combo = new JComboBox();
+						 String query = "select sightseeing from data_on_cities";
+				         try {
+				             // opening database connection to MySQL server
+				             con = DriverManager.getConnection(url, user, password);
+				             // getting Statement object to execute query
+				             stmt = con.createStatement();
+				             // executing SELECT query
+				             rs = stmt.executeQuery(query);
+				             while (rs.next()) {
+				            	 combo.addItem(rs.getString("sightseeing"));
+				             }
+				         } catch (Exception exception) {
+				             exception.printStackTrace();
+				         } finally {
+				             //close connection ,stmt and resultset here
+				             try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				         }
+						 JTextField textf2 = new JTextField(20);
+						 JButton buttonf = new JButton("Изменить");
+						 buttonf.addActionListener(new ActionListener(){
+						 public void actionPerformed(ActionEvent event) {
+								 String query = "update data_on_cities set sightseeing ='" + textf2.getText() + "' where sightseeing = '" + combo.getSelectedItem() + "' limit 1";
+								    try {
+								        // opening database connection to MySQL server
+								        con = DriverManager.getConnection(url, user, password);
+								        // getting Statement object to execute query
+								        stmt = con.createStatement();
+								        // executing SELECT query
+								        int rs = stmt.executeUpdate(query);
+								        if (rs == 0) {
+					                         JOptionPane.showMessageDialog(buttonf, "Ошибка");
+					                     } else {
+					                         JOptionPane.showMessageDialog(buttonf, "Данная достопримечательность была успешно изменена!");
+					                     }
+								   } catch (Exception exception) {
+								        exception.printStackTrace();
+								   } finally {
+								        //close connection ,stmt and resultset here
+								        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+								        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+								    }
+						 }
+					 });
+						 frame1.add(combo);
+						 frame1.add(textf2);
+						 frame1.add(buttonf);
+						 frame1.setVisible(true);
+					 }
+				 });
+				 
+				 frame1.add(button1);
+				 frame1.add(button2);
+				 frame1.add(button3);
+				 frame1.add(button4);
+				 frame1.add(button5);
+				 frame1.add(button6);
+				 frame1.setVisible(true);
 			 }
 		 });
 		 
