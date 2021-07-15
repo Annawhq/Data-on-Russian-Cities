@@ -4,15 +4,20 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintStream;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class example extends JFrame {
 	 // JDBC URL, username and password of MySQL server
@@ -53,7 +58,7 @@ public class example extends JFrame {
 			 frame1.setLayout(new GridBagLayout());
 				
 			 JLabel label = new JLabel("Введите город, который хотите добавить: ");
-			 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.BOLD,13));
+			 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 			 JTextField textf = new JTextField(15);
 			 JButton buttonf = new JButton("Добавить");
 			 buttonf.addActionListener(new ActionListener(){
@@ -100,6 +105,7 @@ public class example extends JFrame {
 				 frame1.setLayout(new FlowLayout());
 				
 				 JLabel label1 = new JLabel("Выберите запись, которую хотите изменить: ");
+				 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 				 JComboBox combo = new JComboBox();
 				 String query = "select city from cities";
 		         try {
@@ -125,6 +131,7 @@ public class example extends JFrame {
 		             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 		         }
 		         JLabel label2 = new JLabel("Введите текст, на который хотите изменить запись: ");
+		         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 				 JTextField textf2 = new JTextField(15);
 				 JButton buttonf = new JButton("Изменить");
 				 buttonf.setPreferredSize(new Dimension(120, 40));
@@ -173,7 +180,7 @@ public class example extends JFrame {
 				 frame1.setLayout(new GridBagLayout());
 				
 				 JLabel label = new JLabel("Выберите город, который хотите удалить: ");
-				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.BOLD,13));
+				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 				 JComboBox combo = new JComboBox();
 				 String query = "select city from cities";
 		         try {
@@ -324,8 +331,8 @@ public class example extends JFrame {
 				 frame1.setLayout(new GridBagLayout());
 				
 				 JLabel label = new JLabel("Введите область, которую хотите добавить: ");
-				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.BOLD,13));
-				 JTextField textf = new JTextField(15);
+				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
+				 JTextField textf = new JTextField(13);
 				 JButton buttonf = new JButton("Добавить");
 				 buttonf.addActionListener(new ActionListener(){
 				 public void actionPerformed(ActionEvent event) {
@@ -370,6 +377,7 @@ public class example extends JFrame {
 				 frame1.setLayout(new FlowLayout());
 					
 				 JLabel label1 = new JLabel("Выберите запись, которую хотите изменить: ");
+				 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 				 JComboBox combo = new JComboBox();
 				 String query = "select region from regions";
 		         try {
@@ -395,8 +403,10 @@ public class example extends JFrame {
 		             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 		         }
 		         JLabel label2 = new JLabel("Введите текст, на который хотите изменить запись: ");
-				 JTextField textf2 = new JTextField(20);
+		         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
+				 JTextField textf2 = new JTextField(15);
 				 JButton buttonf = new JButton("Изменить");
+				 buttonf.setPreferredSize(new Dimension(120, 40));
 				 buttonf.addActionListener(new ActionListener(){
 				 public void actionPerformed(ActionEvent event) {
 						 String query = "update regions set region ='" + textf2.getText() + "' where region = '" + combo.getSelectedItem() + "' limit 1";
@@ -442,7 +452,7 @@ public class example extends JFrame {
 				 frame1.setLayout(new GridBagLayout());
 				
 				 JLabel label = new JLabel("Выберите область, которую хотите удалить: ");
-				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.BOLD,13));
+				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 				 JComboBox combo = new JComboBox();
 				 String query = "select region from regions";
 		         try {
@@ -604,22 +614,22 @@ public class example extends JFrame {
 				 frame1.getContentPane().setBackground(new Color(204,153,255));
 				 frame1.setLayout(new GridLayout(7, 2, 0, 5));
 				
-				 JLabel label1 = new JLabel("Введите код области: ");
+				 JLabel label1 = new JLabel(" Введите код области: ");
 				 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 				 JTextField textf1 = new JTextField(20);
-				 JLabel label2 = new JLabel("Введите код города: ");
+				 JLabel label2 = new JLabel(" Введите код города: ");
 				 label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 				 JTextField textf2 = new JTextField(20);
-				 JLabel label3 = new JLabel("Введите численность населения(в млн): ");
+				 JLabel label3 = new JLabel(" Введите численность населения(в млн): ");
 				 label3.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 				 JTextField textf3 = new JTextField(20);
-				 JLabel label4 = new JLabel("Введите площадь города(в кв.км.): ");
+				 JLabel label4 = new JLabel(" Введите площадь города(в кв.км.): ");
 				 label4.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 				 JTextField textf4 = new JTextField(20);
-				 JLabel label5 = new JLabel("Введите количество университетов: ");
+				 JLabel label5 = new JLabel(" Введите количество университетов: ");
 				 label5.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 				 JTextField textf5 = new JTextField(20);
-				 JLabel label6 = new JLabel("Введите достопримечательность: ");
+				 JLabel label6 = new JLabel(" Введите достопримечательность: ");
 				 label6.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 				 JTextField textf6 = new JTextField(20);
 				 JButton buttonf = new JButton("Добавить");
@@ -690,7 +700,7 @@ public class example extends JFrame {
 						 frame1.setLayout(new FlowLayout());
 						 
 						 JLabel label1 = new JLabel(" Выберите код региона, который хотите изменить: ");
-						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JComboBox combo = new JComboBox();
 						 String query = "select region_id from data_on_cities";
 				         try {
@@ -712,7 +722,7 @@ public class example extends JFrame {
 				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 				         }
 				         JLabel label2 = new JLabel(" Введите новые данные для кода региона: ");
-				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JTextField textf2 = new JTextField(15);
 						 JButton buttonf = new JButton("Изменить");
 						 buttonf.setPreferredSize(new Dimension(120, 40));
@@ -761,7 +771,7 @@ public class example extends JFrame {
 						 frame1.setLayout(new FlowLayout());
 						 
 						 JLabel label1 = new JLabel(" Выберите код города, который хотите изменить: ");
-						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JComboBox combo = new JComboBox();
 						 String query = "select city_id from data_on_cities";
 				         try {
@@ -783,7 +793,7 @@ public class example extends JFrame {
 				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 				         }
 				         JLabel label2 = new JLabel(" Введите новые данные для кода города: ");
-				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JTextField textf2 = new JTextField(15);
 						 JButton buttonf = new JButton("Изменить");
 						 buttonf.setPreferredSize(new Dimension(120, 40));
@@ -832,7 +842,7 @@ public class example extends JFrame {
 						 frame1.setLayout(new FlowLayout());
 						 
 						 JLabel label1 = new JLabel(" Выберите численность населения, которую хотите изменить: ");
-						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JComboBox combo = new JComboBox();
 						 String query = "select population from data_on_cities";
 				         try {
@@ -854,7 +864,7 @@ public class example extends JFrame {
 				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 				         }
 				         JLabel label2 = new JLabel("Введите новые данные для численности населения: ");
-				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JTextField textf2 = new JTextField(15);
 						 JButton buttonf = new JButton("Изменить");
 						 buttonf.setPreferredSize(new Dimension(120, 40));
@@ -903,7 +913,7 @@ public class example extends JFrame {
 						 frame1.setLayout(new FlowLayout());
 						 
 						 JLabel label1 = new JLabel(" Выберите площадь города, которую хотите изменить: ");
-						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JComboBox combo = new JComboBox();
 						 String query = "select area from data_on_cities";
 				         try {
@@ -925,7 +935,7 @@ public class example extends JFrame {
 				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 				         }
 				         JLabel label2 = new JLabel("Введите новые данные для площади города: ");
-				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JTextField textf2 = new JTextField(15);
 						 JButton buttonf = new JButton("Изменить");
 						 buttonf.setPreferredSize(new Dimension(120, 40));
@@ -974,7 +984,7 @@ public class example extends JFrame {
 						 frame1.setLayout(new FlowLayout());
 						 
 						 JLabel label1 = new JLabel(" Выберите количество университетов, которое хотите изменить: ");
-						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JComboBox combo = new JComboBox();
 						 String query = "select universities from data_on_cities";
 				         try {
@@ -996,8 +1006,8 @@ public class example extends JFrame {
 				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 				         }
 				         JLabel label2 = new JLabel("Введите новые данные для количества университетов: ");
-				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
-						 JTextField textf2 = new JTextField(15);
+				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
+						 JTextField textf2 = new JTextField(13);
 						 JButton buttonf = new JButton("Изменить");
 						 buttonf.setPreferredSize(new Dimension(120, 40));
 						 buttonf.addActionListener(new ActionListener(){
@@ -1045,7 +1055,7 @@ public class example extends JFrame {
 						 frame1.setLayout(new FlowLayout());
 						 
 						 JLabel label1 = new JLabel(" Выберите достопримечательность: ");
-						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+						 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JComboBox combo = new JComboBox();
 						 String query = "select sightseeing from data_on_cities";
 				         try {
@@ -1067,7 +1077,7 @@ public class example extends JFrame {
 				             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 				         }
 				         JLabel label2 = new JLabel("Введите новые данные для достопримечательности: ");
-				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+				         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 						 JTextField textf2 = new JTextField(15);
 						 JButton buttonf = new JButton("Изменить");
 						 buttonf.setPreferredSize(new Dimension(120, 40));
@@ -1129,7 +1139,7 @@ public class example extends JFrame {
 				 frame1.setLayout(new GridBagLayout());
 				
 				 JLabel label = new JLabel("Выберите запись, которую хотите удалить: ");
-				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 				 JComboBox combo = new JComboBox();
 				 String query = "select sightseeing from data_on_cities";
 		         try {
@@ -1200,7 +1210,7 @@ public class example extends JFrame {
 				 frame1.setLayout(new FlowLayout());
 				 
 				 JLabel label1 = new JLabel("Введите достопримечательность, информацию о которой хотите найти: ");
-				 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
+				 label1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 				 JTextField textf1 = new JTextField(20);
 				 JLabel label2 = new JLabel();
 				 JButton buttonf1 = new JButton("Найти");
@@ -1266,13 +1276,148 @@ public class example extends JFrame {
 		 JMenu Prosmotr = new JMenu("Просмотр таблиц");
 		 Prosmotr.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 		 Prosmotr.setPreferredSize(new Dimension(140, 50));
-		 JMenuItem pros1 = new JMenuItem("Справочник городов");
+		 JMenuItem pros1 = new JMenuItem("Справочник областей");
+		 pros1.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent event) {
+				 JFrame frame1 = new JFrame("Справочник областей");
+				 frame1.setSize(600,305);
+				 frame1.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				 frame1.setLocationRelativeTo(null);
+				 frame1.getContentPane().setBackground(new Color(204,153,255));
+				 JPanel panel = new JPanel();
+				 String SQL = "select * from regions";
+				 try {
+				 con = DriverManager.getConnection(url, user, password);
+				 stmt = con.createStatement();
+				 rs = stmt.executeQuery(SQL);
+				 String n = "",e = "";      
+
+				 DefaultTableModel model;
+				 model = new DefaultTableModel(); 
+				 JTable jTable1 = new  JTable(model);
+				 model.addColumn("id");
+				 model.addColumn("region");
+				 while(rs.next())  
+				 {
+				     n = rs.getString("id");    
+				     e = rs.getString("region");   
+				     model.addRow(new Object[]{n,e});
+				 }
+				 panel.add(new JScrollPane(jTable1));
+				 } catch (Exception exception) {
+				        exception.printStackTrace();
+				   } finally {
+				        //close connection ,stmt and resultset here
+				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				    }
+				 frame1.add(panel);
+				 frame1.setVisible(true);
+			 }
+		 });
 		 pros1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,13));
 		 pros1.setPreferredSize(new Dimension(137, 40));
-		 JMenuItem pros2 = new JMenuItem("Справочник областей");
+		 JMenuItem pros2 = new JMenuItem("Справочник городов");
+		 pros2.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent event) {
+				 JFrame frame1 = new JFrame("Справочник городов");
+				 frame1.setSize(600,305);
+				 frame1.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				 frame1.setLocationRelativeTo(null);
+				 frame1.getContentPane().setBackground(new Color(204,153,255));
+				 JPanel panel = new JPanel();
+				 String SQL = "select * from cities";
+				 try {
+				 con = DriverManager.getConnection(url, user, password);
+				 stmt = con.createStatement();
+				 rs = stmt.executeQuery(SQL);
+				 String n = "",e = "";      
+
+				 DefaultTableModel model;
+				 model = new DefaultTableModel(); 
+				 JTable jTable1 = new  JTable(model);
+				 model.addColumn("id");
+				 model.addColumn("city");
+				 while(rs.next())  
+				 {
+				     n = rs.getString("id");    
+				     e = rs.getString("city");   
+				     model.addRow(new Object[]{n,e});
+				 }
+				 panel.add(new JScrollPane(jTable1));
+				 } catch (Exception exception) {
+				        exception.printStackTrace();
+				   } finally {
+				        //close connection ,stmt and resultset here
+				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				    }
+				 frame1.add(panel);
+				 frame1.setVisible(true);
+			 }
+		 });
 		 pros2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,13));
 		 pros2.setPreferredSize(new Dimension(137, 40));
 		 JMenuItem pros3 = new JMenuItem("Главная таблица");
+		 pros3.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent event) {
+				 JFrame frame1 = new JFrame("Главная таблица");
+				 frame1.setSize(600,300);
+				 frame1.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				 frame1.setLocationRelativeTo(null);
+				 frame1.getContentPane().setBackground(new Color(204,153,255));
+				 JPanel panel = new JPanel();
+				 String SQL = "select * from data_on_cities";
+				 try {
+				 con = DriverManager.getConnection(url, user, password);
+				 stmt = con.createStatement();
+				 rs = stmt.executeQuery(SQL);
+				 String n = "",e = "",g = "",h = "", a = "", j = "", f = "";      
+
+				 DefaultTableModel model;
+				 model = new DefaultTableModel(); 
+				 JTable jTable1 = new  JTable(model);
+				 model.addColumn("id");
+				 model.addColumn("region_id");
+				 model.addColumn("city_id");
+				 model.addColumn("population");
+				 model.addColumn("area");
+				 model.addColumn("universities");
+				 model.addColumn("sightseeing");
+				 while(rs.next())  
+				 {
+				     n = rs.getString("id");    
+				     e = rs.getString("region_id");
+				     g = rs.getString("city_id");
+				     h = rs.getString("population"); 
+				     a = rs.getString("area"); 
+				     j = rs.getString("universities"); 
+				     f = rs.getString("sightseeing"); 
+				     model.addRow(new Object[]{n,e,g,h,a,j,f});
+				 }
+				 panel.add(new JScrollPane(jTable1));
+				 jTable1.setPreferredScrollableViewportSize(jTable1.getPreferredSize());
+				 jTable1.getColumn("id").setMaxWidth(20);
+				 jTable1.getColumn("region_id").setMaxWidth(58);
+				 jTable1.getColumn("city_id").setMaxWidth(57);
+				 jTable1.getColumn("population").setMaxWidth(65);
+				 jTable1.getColumn("area").setMaxWidth(40);
+				 jTable1.getColumn("universities").setMaxWidth(85);
+				 jTable1.getColumn("sightseeing").setMaxWidth(270);
+				 } catch (Exception exception) {
+				        exception.printStackTrace();
+				   } finally {
+				        //close connection ,stmt and resultset here
+				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				    }
+				 frame1.add(panel);
+				 frame1.setVisible(true);
+			 }
+		 });
 		 pros3.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,13));
 		 pros3.setPreferredSize(new Dimension(137, 40));
 		 Prosmotr.add(pros1);
