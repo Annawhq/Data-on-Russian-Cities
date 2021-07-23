@@ -4,10 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.PrintStream;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,15 +14,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 public class example extends JFrame {
 	 // JDBC URL, username and password of MySQL server
 	 private static final String url = "jdbc:mysql://localhost:3306/cities";
 	 private static final String user = "root";
 	 private static final String password = "Host879";
-
      // JDBC variables for opening and managing connection
 	 private static Connection con;
 	 private static Statement stmt;
@@ -130,7 +125,7 @@ public class example extends JFrame {
 		             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
 		             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 		         }
-		         JLabel label2 = new JLabel("Введите текст, на который хотите изменить запись: ");
+		         JLabel label2 = new JLabel("Введите новые данные для названия города: ");
 		         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 				 JTextField textf2 = new JTextField(15);
 				 JButton buttonf = new JButton("Изменить");
@@ -402,7 +397,7 @@ public class example extends JFrame {
 		             try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
 		             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
 		         }
-		         JLabel label2 = new JLabel("Введите текст, на который хотите изменить запись: ");
+		         JLabel label2 = new JLabel("Введите новые данные для названия области: ");
 		         label2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
 				 JTextField textf2 = new JTextField(15);
 				 JButton buttonf = new JButton("Изменить");
@@ -1261,18 +1256,169 @@ public class example extends JFrame {
 		 Otchet.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 		 Otchet.setPreferredSize(new Dimension(80, 50));
 		 JMenuItem otch1 = new JMenuItem("Отчет 1");
+		 otch1.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent event) {
+				 JFrame frame1 = new JFrame("Отчет");
+				 frame1.setSize(600,300);
+				 frame1.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				 frame1.setLocationRelativeTo(null);
+				 frame1.getContentPane().setBackground(new Color(204,153,255));
+				 JLabel label = new JLabel("Полный отчет о достопримечательностях");
+				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
+				 JPanel panel = new JPanel();
+				 String SQL = "select data_on_cities.id, regions.region, cities.city, data_on_cities.population, data_on_cities.area, data_on_cities.universities, data_on_cities.sightseeing from data_on_cities left join regions on data_on_cities.region_id = regions.id left join cities on data_on_cities.city_id = cities.id";
+				 try {
+				 con = DriverManager.getConnection(url, user, password);
+				 stmt = con.createStatement();
+				 rs = stmt.executeQuery(SQL);
+				 String n = "",e = "",g = "",h = "", a = "", j = "", f = "";      
+
+				 DefaultTableModel model;
+				 model = new DefaultTableModel(); 
+				 JTable jTable1 = new  JTable(model);
+				 model.addColumn("id");
+				 model.addColumn("region");
+				 model.addColumn("city");
+				 model.addColumn("population");
+				 model.addColumn("area");
+				 model.addColumn("universities");
+				 model.addColumn("sightseeing");
+				 while(rs.next())  
+				 {
+				     n = rs.getString("id");    
+				     e = rs.getString("region");
+				     g = rs.getString("city");
+				     h = rs.getString("population"); 
+				     a = rs.getString("area"); 
+				     j = rs.getString("universities"); 
+				     f = rs.getString("sightseeing"); 
+				     model.addRow(new Object[]{n,e,g,h,a,j,f});
+				 }
+				 panel.add(label);
+				 panel.add(new JScrollPane(jTable1));
+				 jTable1.setPreferredScrollableViewportSize(jTable1.getPreferredSize());
+				 jTable1.getColumn("id").setMaxWidth(20);
+				 jTable1.getColumn("population").setMaxWidth(50);
+				 jTable1.getColumn("area").setMaxWidth(50);
+				 jTable1.getColumn("universities").setMaxWidth(50);
+				 } catch (Exception exception) {
+				        exception.printStackTrace();
+				   } finally {
+				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				    }
+				 frame1.add(panel);
+				 frame1.setVisible(true);
+			 }
+		 });
+		 
 		 otch1.setPreferredSize(new Dimension(77, 35));
 		 otch1.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 		 JMenuItem otch2 = new JMenuItem("Отчет 2");
+		 otch2.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent event) {
+				 JFrame frame1 = new JFrame("Отчет");
+				 frame1.setSize(600,335);
+				 frame1.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				 frame1.setLocationRelativeTo(null);
+				 frame1.getContentPane().setBackground(new Color(204,153,255));
+				 JLabel label = new JLabel("Отчет о количестве достопримечательностей в каждом городе");
+				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
+				 JPanel panel = new JPanel();
+				 String SQL = "select cities.id, city, count(sightseeing) as 'количество достопримечательностей' from cities left join data_on_cities on data_on_cities.city_id = cities.id group by city";
+				 try {
+				 con = DriverManager.getConnection(url, user, password);
+				 stmt = con.createStatement();
+				 rs = stmt.executeQuery(SQL);
+				 String n = "",e = "",g = "";      
+
+				 DefaultTableModel model;
+				 model = new DefaultTableModel(); 
+				 JTable jTable1 = new  JTable(model);
+				 model.addColumn("id");
+				 model.addColumn("city");
+				 model.addColumn("quantity");
+				 while(rs.next())  
+				 {
+				     n = rs.getString("id");    
+				     e = rs.getString("city");
+				     g = rs.getString("количество достопримечательностей");
+				     model.addRow(new Object[]{n,e,g});
+				 }
+				 panel.add(label);
+				 panel.add(new JScrollPane(jTable1));
+				 jTable1.setPreferredScrollableViewportSize(jTable1.getPreferredSize());
+				 jTable1.getColumn("id").setMaxWidth(20);
+				 jTable1.getColumn("quantity").setMaxWidth(120);
+				 } catch (Exception exception) {
+				        exception.printStackTrace();
+				   } finally {
+				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				    }
+				 frame1.add(panel);
+				 frame1.setVisible(true);
+			 }
+		 });
+		 
 		 otch2.setPreferredSize(new Dimension(77, 35));
 		 otch2.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 		 JMenuItem otch3 = new JMenuItem("Отчет 3");
+		 otch3.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent event) {
+				 JFrame frame1 = new JFrame("Отчет");
+				 frame1.setSize(600,335);
+				 frame1.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				 frame1.setLocationRelativeTo(null);
+				 frame1.getContentPane().setBackground(new Color(204,153,255));
+				 JLabel label = new JLabel("Отчет о площади каждого города");
+				 label.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,16));
+				 JPanel panel = new JPanel();
+				 String SQL = "select cities.id, cities.city, data_on_cities.area from data_on_cities left join cities on data_on_cities.city_id = cities.id group by city";
+				 try {
+				 con = DriverManager.getConnection(url, user, password);
+				 stmt = con.createStatement();
+				 rs = stmt.executeQuery(SQL);
+				 String n = "",e = "",g = "";      
+
+				 DefaultTableModel model;
+				 model = new DefaultTableModel(); 
+				 JTable jTable1 = new  JTable(model);
+				 jTable1.setPreferredSize(new Dimension(380, 173));
+				 model.addColumn("id");
+				 model.addColumn("city");
+				 model.addColumn("area");
+				 while(rs.next())  
+				 {   
+					 n = rs.getString("id");
+				     e = rs.getString("city");
+				     g = rs.getString("area");
+				     model.addRow(new Object[]{n,e,g});
+				 }
+				 panel.add(label);
+				 panel.add(new JScrollPane(jTable1));
+				 jTable1.setPreferredScrollableViewportSize(jTable1.getPreferredSize());
+				 jTable1.getColumn("id").setMaxWidth(23);
+				 jTable1.getColumn("area").setMaxWidth(120);
+				 } catch (Exception exception) {
+				        exception.printStackTrace();
+				   } finally {
+				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+				    }
+				 frame1.add(panel);
+				 frame1.setVisible(true);
+			 }
+		 });
 		 otch3.setPreferredSize(new Dimension(77, 35));
 		 otch3.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 		 Otchet.add(otch1);
 		 Otchet.add(otch2);
 		 Otchet.add(otch3);
-		 //Заполнить с помощью JTable
+
 		 JMenu Prosmotr = new JMenu("Просмотр таблиц");
 		 Prosmotr.setFont(new Font("Bahnschrift Light SemiCondensed",Font.PLAIN,15));
 		 Prosmotr.setPreferredSize(new Dimension(140, 50));
@@ -1307,7 +1453,6 @@ public class example extends JFrame {
 				 } catch (Exception exception) {
 				        exception.printStackTrace();
 				   } finally {
-				        //close connection ,stmt and resultset here
 				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
 				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
 				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
@@ -1349,7 +1494,6 @@ public class example extends JFrame {
 				 } catch (Exception exception) {
 				        exception.printStackTrace();
 				   } finally {
-				        //close connection ,stmt and resultset here
 				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
 				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
 				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
@@ -1409,7 +1553,6 @@ public class example extends JFrame {
 				 } catch (Exception exception) {
 				        exception.printStackTrace();
 				   } finally {
-				        //close connection ,stmt and resultset here
 				        try { con.close(); } catch(SQLException se) { /*can't do anything */ }
 				        try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
 				        try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
@@ -1432,7 +1575,7 @@ public class example extends JFrame {
 				System.exit(0);
 			 }
 		 });
-
+ 
 		 frame.setJMenuBar(menuBar);
 		 menuBar.add(Sprav);
 		 menuBar.add(Operat);
